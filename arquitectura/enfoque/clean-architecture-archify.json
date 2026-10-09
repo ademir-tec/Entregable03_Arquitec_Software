@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Clean Architecture de MotoYa",
+    "output": "clean-architecture-marketplace.html",
+    "quality_profile": "showcase",
+    "viewBox": [1100, 550],
+    "views": [
+      { "id": "flujo", "label": "Flujo principal", "focus": ["usuario", "presentacion", "aplicacion", "dominio"], "note": "La interacción entra por Presentación y llega al Dominio mediante casos de uso." },
+      { "id": "inversion", "label": "Inversión de dependencias", "focus": ["aplicacion", "contratos", "infraestructura"], "note": "Los casos de uso consumen puertos que Infraestructura implementa." },
+      { "id": "proveedores", "label": "Proveedores", "focus": ["infraestructura", "firebase", "mapas", "notificaciones"], "note": "Firebase, mapas y mensajería quedan fuera del núcleo de negocio." }
+    ]
+  },
+  "components": [
+    { "id": "usuario", "type": "external", "label": "Usuario MotoYa", "sublabel": "Pasajero, conductor o soporte", "pos": [40, 180], "size": [160, 70] },
+    { "id": "presentacion", "type": "frontend", "label": "Presentación", "sublabel": "Flutter y panel web", "pos": [260, 180], "size": [160, 70] },
+    { "id": "aplicacion", "type": "backend", "label": "Aplicación", "sublabel": "Casos de uso", "pos": [500, 180], "size": [160, 70] },
+    { "id": "dominio", "type": "backend", "label": "Dominio", "sublabel": "Viajes, tarifas y seguridad", "tag": "NÚCLEO", "pos": [740, 180], "size": [160, 70] },
+    { "id": "composicion", "type": "backend", "label": "Composición", "sublabel": "Selección de adaptadores", "pos": [500, 30], "size": [160, 70] },
+    { "id": "contratos", "type": "security", "label": "Contratos", "sublabel": "Puertos del dominio", "pos": [740, 320], "size": [160, 70] },
+    { "id": "infraestructura", "type": "backend", "label": "Infraestructura", "sublabel": "Adaptadores", "pos": [500, 320], "size": [160, 70] },
+    { "id": "firebase", "type": "database", "label": "Firebase", "sublabel": "Datos, funciones y archivos", "pos": [260, 460], "size": [160, 70] },
+    { "id": "mapas", "type": "external", "label": "Servicios de mapas", "sublabel": "Google y respaldo", "pos": [500, 460], "size": [160, 70] },
+    { "id": "notificaciones", "type": "external", "label": "Notificaciones", "sublabel": "FCM y SMS", "pos": [740, 460], "size": [160, 70] }
+  ],
+  "connections": [
+    { "id": "usuario-presentacion", "from": "usuario", "to": "presentacion", "label": "interacción", "variant": "emphasis" },
+    { "id": "presentacion-aplicacion", "from": "presentacion", "to": "aplicacion", "label": "invoca casos de uso", "variant": "emphasis", "labelAt": [460, 264] },
+    { "id": "aplicacion-dominio", "from": "aplicacion", "to": "dominio", "label": "aplica reglas", "variant": "emphasis" },
+    { "id": "aplicacion-contratos", "from": "aplicacion", "to": "contratos", "label": "usa puertos" },
+    { "id": "infraestructura-contratos", "from": "infraestructura", "to": "contratos", "label": "implementa puertos", "labelAt": [580, 300] },
+    { "id": "infraestructura-firebase", "from": "infraestructura", "to": "firebase", "label": "persiste y ejecuta" },
+    { "id": "infraestructura-mapas", "from": "infraestructura", "to": "mapas", "label": "rutas y direcciones", "labelAt": [580, 426] },
+    { "id": "infraestructura-notificaciones", "from": "infraestructura", "to": "notificaciones", "label": "envía avisos" }
+  ]
+}
