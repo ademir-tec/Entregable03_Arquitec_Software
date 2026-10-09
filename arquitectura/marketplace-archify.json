@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Arquitectura de MotoYa",
+    "output": "marketplace-arquitectura.html",
+    "quality_profile": "showcase",
+    "viewBox": [1100, 550],
+    "views": [
+      { "id": "viaje", "label": "Flujo del viaje", "focus": ["usuarios", "app", "funciones", "firestore"], "note": "La app solicita operaciones; el servidor valida y Firestore distribuye el estado." },
+      { "id": "operacion", "label": "Operación y seguridad", "focus": ["panel", "auth", "funciones", "storage"], "note": "El panel atiende registros, recargas y SOS con identidad y archivos protegidos." },
+      { "id": "mapas", "label": "Mapas reemplazables", "focus": ["app", "puerto-mapas", "google", "respaldo"], "note": "El puerto separa a MotoYa de los proveedores de rutas y geocodificación." }
+    ]
+  },
+  "components": [
+    { "id": "usuarios", "type": "external", "label": "Usuarios móviles", "sublabel": "Pasajero y conductor", "pos": [40, 180], "size": [160, 70] },
+    { "id": "app", "type": "frontend", "label": "App MotoYa", "sublabel": "Flutter · dos modos", "pos": [260, 180], "size": [160, 70] },
+    { "id": "funciones", "type": "backend", "label": "Cloud Functions", "sublabel": "Reglas y eventos", "pos": [500, 180], "size": [160, 70] },
+    { "id": "firestore", "type": "database", "label": "Firestore", "sublabel": "Estado en tiempo real", "pos": [740, 180], "size": [160, 70] },
+    { "id": "auth", "type": "security", "label": "Auth + App Check", "sublabel": "Identidad y app legítima", "pos": [260, 30], "size": [160, 70] },
+    { "id": "panel", "type": "frontend", "label": "Panel web", "sublabel": "Soporte y administración", "pos": [40, 330], "size": [160, 70] },
+    { "id": "storage", "type": "database", "label": "Storage privado", "sublabel": "Documentos y evidencias", "pos": [740, 330], "size": [160, 70] },
+    { "id": "puerto-mapas", "type": "backend", "label": "Puerto de mapas", "sublabel": "Rutas y direcciones", "pos": [500, 330], "size": [160, 70] },
+    { "id": "google", "type": "external", "label": "Google Maps", "sublabel": "Proveedor principal", "pos": [380, 460], "size": [160, 70] },
+    { "id": "respaldo", "type": "external", "label": "GraphHopper + Photon", "sublabel": "Proveedores de respaldo", "pos": [620, 460], "size": [180, 70] }
+  ],
+  "connections": [
+    { "id": "usuarios-app", "from": "usuarios", "to": "app", "label": "interacción", "variant": "emphasis" },
+    { "id": "app-funciones", "from": "app", "to": "funciones", "label": "comandos validados", "variant": "emphasis", "labelAt": [460, 160] },
+    { "id": "funciones-firestore", "from": "funciones", "to": "firestore", "label": "transacciones", "variant": "emphasis" },
+    { "id": "app-auth", "from": "app", "to": "auth", "label": "sesión" },
+    { "id": "panel-funciones", "from": "panel", "to": "funciones", "label": "operaciones por rol" },
+    { "id": "funciones-storage", "from": "funciones", "to": "storage", "label": "acceso temporal" },
+    { "id": "funciones-mapas", "from": "funciones", "to": "puerto-mapas", "label": "ruta y geocodificación", "labelAt": [580, 264] },
+    { "id": "puerto-google", "from": "puerto-mapas", "to": "google", "label": "principal", "fromSide": "bottom", "toSide": "top" },
+    { "id": "puerto-respaldo", "from": "puerto-mapas", "to": "respaldo", "label": "respaldo", "variant": "dashed", "fromSide": "bottom", "toSide": "top" }
+  ]
+}
